@@ -6,23 +6,40 @@ import { deleteAccount } from '@/lib/actions';
 import { Account } from '@/drizzle/schema';
 import { AccountForm } from './AccountForm';
 
+interface AccountCodeOption {
+  code: string;
+  name: string;
+}
+
 interface AccountTableProps {
   accounts: Account[];
   showActions?: boolean;
   onSuccess?: () => void;
+  accountCodeOptions?: AccountCodeOption[];
+  payeeOptions?: string[];
 }
 
-export function AccountTable({ accounts, showActions = true, onSuccess }: AccountTableProps) {
+export function AccountTable({ accounts, showActions = true, onSuccess, accountCodeOptions = [], payeeOptions = [] }: AccountTableProps) {
   const [isPending, startTransition] = useTransition();
   const [editAccount, setEditAccount] = useState<Account | null>(null);
   const [viewAccount, setViewAccount] = useState<Account | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const handleDelete = (id: number) => {
+    setDeleteError(null);
     startTransition(async () => {
-      await deleteAccount(id);
-      setShowDeleteConfirm(null);
-      onSuccess?.();
+      try {
+        const result = await deleteAccount(id);
+        if (result.success) {
+          setShowDeleteConfirm(null);
+          onSuccess?.();
+        } else {
+          setDeleteError('Failed to delete entry');
+        }
+      } catch (error) {
+        setDeleteError('Failed to delete entry');
+      }
     });
   };
 
@@ -181,9 +198,15 @@ export function AccountTable({ accounts, showActions = true, onSuccess }: Accoun
             <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
               Are you sure you want to delete this entry? This action cannot be undone.
             </p>
+            {deleteError && (
+              <p className="text-sm text-red-600 dark:text-red-400 mb-4">{deleteError}</p>
+            )}
             <div className="flex justify-end gap-2">
               <button
-                onClick={() => setShowDeleteConfirm(null)}
+                onClick={() => {
+                  setShowDeleteConfirm(null);
+                  setDeleteError(null);
+                }}
                 className="px-4 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
               >
                 Cancel
@@ -206,6 +229,8 @@ export function AccountTable({ accounts, showActions = true, onSuccess }: Accoun
           onClose={() => setEditAccount(null)}
           account={editAccount}
           onSuccess={onSuccess}
+          accountCodeOptions={accountCodeOptions}
+          payeeOptions={payeeOptions}
         />
       )}
     </>
