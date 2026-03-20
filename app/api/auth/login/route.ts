@@ -1,5 +1,3 @@
-'use server';
-
 import { NextResponse } from 'next/server';
 import { loginSchema } from '@/lib/validation';
 import { setAuthSession, validateCredentials } from '@/lib/auth';
@@ -18,7 +16,7 @@ export async function POST(request: Request) {
 
     const { username, password } = result.data;
 
-    if (!validateCredentials(username, password)) {
+    if (!(await validateCredentials(username, password))) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
         { status: 401 }

@@ -1,5 +1,8 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { and, eq, isNull } from 'drizzle-orm';
+import { db } from '@/lib/db';
+import { users } from '@/drizzle/schema';
 
 const AUTH_COOKIE_NAME = 'auth_session';
 const SESSION_VALUE = 'authenticated';
@@ -26,11 +29,20 @@ export async function getAuthSession(): Promise<boolean> {
   return session?.value === SESSION_VALUE;
 }
 
-export function validateCredentials(username: string, password: string): boolean {
-  return (
-    username === process.env.ADMIN_USERNAME &&
-    password === process.env.ADMIN_PASSWORD
-  );
+export async function validateCredentials(username: string, password: string): Promise<boolean> {
+  const [user] = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(
+      and(
+        eq(users.username, username),
+        eq(users.password, password),
+        isNull(users.deletedAt)
+      )
+    )
+    .limit(1);
+
+  return Boolean(user);
 }
 
 export function redirectToLogin() {

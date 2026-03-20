@@ -16,6 +16,11 @@ const client = createClient({
   authToken: TursoAuth,
 });
 
+const defaultAdmin = {
+  username: 'Rowena Coronado',
+  password: 'IamRowena2026',
+};
+
 const seedData = [
   { jev: "2020-01-001", barangay: "BEGUIN", date: "1/21/2020", check_rcd_no: "740259", payee: "DAISY JEAN G. GOSGOLAN", particulars: "Cash Advance for Salaries & Wages", code: "1-03-03-010", account: "Advances for Payroll", debit: "83440.00", credit: "0.00" },
   { jev: "2020-01-001", barangay: "BEGUIN", date: "1/21/2020", check_rcd_no: "740259", payee: "DAISY JEAN G. GOSGOLAN", particulars: "Withdrawal of CA for the Saaries & Wages of Brgy. Officials", code: "1-01-02-010", account: "Cash in Bank - Local Currency, Current Account", debit: "0.00", credit: "83440.00" },
@@ -274,6 +279,34 @@ async function seed() {
   let imported = 0;
   const createdAt = new Date().toISOString();
 
+  await client.execute(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      deleted_at TEXT
+    )
+  `);
+
+  await client.execute(`
+    CREATE UNIQUE INDEX IF NOT EXISTS users_username_unique
+    ON users (username)
+  `);
+
+  await client.execute({
+    sql: `
+      INSERT INTO users (username, password, created_at, updated_at)
+      VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      ON CONFLICT(username) DO UPDATE SET
+        password = excluded.password,
+        updated_at = CURRENT_TIMESTAMP,
+        deleted_at = NULL
+    `,
+    args: [defaultAdmin.username, defaultAdmin.password],
+  });
+
   for (const row of seedData) {
     try {
       await client.execute({
@@ -299,6 +332,7 @@ async function seed() {
   }
 
   console.log(`\nSeeding complete!`);
+  console.log(`Admin user ensured: ${defaultAdmin.username}`);
   console.log(`Imported: ${imported} rows`);
 }
 
