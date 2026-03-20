@@ -51,22 +51,16 @@ export function Navbar() {
               Dashboard
             </Link>
             <Link
-              href="/dashboard/accounts"
-              className="block px-3 py-2 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg"
-            >
-              Accounts
-            </Link>
-            <Link
               href="/dashboard/validate"
               className="block px-3 py-2 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg"
             >
               Validate Code
             </Link>
             <Link
-              href="/dashboard/import"
+              href="/dashboard/export"
               className="block px-3 py-2 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg"
             >
-              Import
+              Export
             </Link>
           </nav>
         </div>

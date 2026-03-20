@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
   LayoutDashboard, 
-  Database, 
-  Upload, 
+  Download,
   CheckCircle,
   ChevronLeft,
   ChevronRight
@@ -14,9 +13,8 @@ import { useState } from 'react';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/dashboard/accounts', label: 'Accounts', icon: Database },
   { href: '/dashboard/validate', label: 'Validate Code', icon: CheckCircle },
-  { href: '/dashboard/import', label: 'Import', icon: Upload },
+  { href: '/dashboard/export', label: 'Export', icon: Download },
 ];
 
 export function Sidebar() {
@@ -25,7 +23,7 @@ export function Sidebar() {
 
   return (
     <aside
-      className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 transition-all duration-300 z-40 ${
+      className={`hidden lg:block fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 transition-all duration-300 z-40 ${
         collapsed ? 'w-16' : 'w-56'
       }`}
     >
