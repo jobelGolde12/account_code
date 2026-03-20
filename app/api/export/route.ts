@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     if (format === 'excel') {
       const file = await buildExcelExport();
 
-      return new NextResponse(file, {
+      return new NextResponse(new Uint8Array(file), {
         headers: {
           'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           'Content-Disposition': `attachment; filename="${getFilename('xlsx')}"`,
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
     if (format === 'pdf') {
       const file = await buildPdfExport();
 
-      return new NextResponse(file, {
+      return new NextResponse(new Uint8Array(file), {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': `attachment; filename="${getFilename('pdf')}"`,
