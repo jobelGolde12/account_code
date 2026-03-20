@@ -205,9 +205,9 @@ function buildStyledPdf(rows: ExportRow[]): Buffer {
   const pageWidth = 842;
   const pageHeight = 595;
   const marginX = 34;
-  const topY = 555;
-  const headerBottomY = 448;
-  const tableTopY = 428;
+  const topY = 548;
+  const headerBottomY = 462;
+  const tableTopY = 442;
   const footerY = 20;
   const rowHeight = 18;
   const headerRowHeight = 22;
@@ -226,7 +226,7 @@ function buildStyledPdf(rows: ExportRow[]): Buffer {
     commands.push(pdfRect(marginX + 562, headerBottomY + 12, 164, 58, [0.95, 0.97, 1], [0.82, 0.88, 0.96]));
 
     commands.push(pdfText(marginX + 22, topY - 12, 'ACCOUNT CODE SYSTEM', 'F2', 10, [0.78, 0.87, 1]));
-    commands.push(pdfText(marginX + 22, topY - 36, 'Exported Account Records', 'F2', 22, [1, 1, 1]));
+    commands.push(pdfText(marginX + 22, topY - 38, 'Exported Account Records', 'F2', 22, [1, 1, 1]));
     commands.push(
       pdfText(
         marginX + 22,
