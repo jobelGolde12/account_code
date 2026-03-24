@@ -53,6 +53,7 @@ export async function addAccount(data: {
   checkRcdNo?: string; 
   payee?: string; 
   particulars?: string; 
+  description?: string;
   code?: string; 
   accounts?: string; 
   debit?: string; 
@@ -65,6 +66,7 @@ export async function addAccount(data: {
     checkRcdNo: data.checkRcdNo || null,
     payee: data.payee || null,
     particulars: data.particulars || null,
+    description: data.description || null,
     code: data.code || null,
     accounts: data.accounts || null,
     debit: data.debit || null,
@@ -82,6 +84,7 @@ export async function updateAccount(id: number, data: {
   checkRcdNo?: string; 
   payee?: string; 
   particulars?: string; 
+  description?: string;
   code?: string; 
   accounts?: string; 
   debit?: string; 

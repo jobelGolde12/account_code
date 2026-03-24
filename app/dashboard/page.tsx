@@ -60,14 +60,14 @@ export default function DashboardPage() {
   }, [accounts]);
 
   const accountCodeOptions = useMemo(() => {
-    const codeMap = new Map<string, string>();
+    const codeMap = new Map<string, { name: string; description?: string }>();
     accounts.forEach(acc => {
       if (acc.code && acc.accounts && !codeMap.has(acc.code)) {
-        codeMap.set(acc.code, acc.accounts);
+        codeMap.set(acc.code, { name: acc.accounts, description: acc.description || undefined });
       }
     });
     return Array.from(codeMap.entries())
-      .map(([code, name]) => ({ code, name }))
+      .map(([code, data]) => ({ code, name: data.name, description: data.description }))
       .sort((a, b) => a.code.localeCompare(b.code));
   }, [accounts]);
 

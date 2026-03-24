@@ -9,6 +9,7 @@ export const accounts = sqliteTable('accounts', {
   checkRcdNo: text('check_rcd_no'),
   payee: text('payee'),
   particulars: text('particulars'),
+  description: text('description'),
   code: text('code'),
   accounts: text('accounts'),
   debit: text('debit'),

@@ -61,6 +61,7 @@ export function AccountTable({ accounts, showActions = true, onSuccess, accountC
               <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Date</th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Payee</th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Code</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Description</th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Account</th>
               <th className="px-4 py-3 text-right text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Debit</th>
               <th className="px-4 py-3 text-right text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Credit</th>
@@ -86,6 +87,9 @@ export function AccountTable({ accounts, showActions = true, onSuccess, accountC
                 </td>
                 <td className="px-4 py-3 text-zinc-900 dark:text-zinc-100 font-mono text-xs font-medium">
                   {account.code || '-'}
+                </td>
+                <td className="px-4 py-3 text-zinc-900 dark:text-zinc-100 text-xs max-w-[150px] truncate">
+                  {account.description || '-'}
                 </td>
                 <td className="px-4 py-3 text-zinc-900 dark:text-zinc-100 text-xs max-w-[200px] truncate">
                   {account.accounts || '-'}
@@ -170,6 +174,10 @@ export function AccountTable({ accounts, showActions = true, onSuccess, accountC
               <div>
                 <label className="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase">Code</label>
                 <p className="mt-1 text-sm text-zinc-900 dark:text-zinc-100 font-mono font-medium">{viewAccount.code || '-'}</p>
+              </div>
+              <div>
+                <label className="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase">Description</label>
+                <p className="mt-1 text-sm text-zinc-900 dark:text-zinc-100">{viewAccount.description || '-'}</p>
               </div>
               <div>
                 <label className="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase">Account</label>

@@ -10,6 +10,7 @@ import { Plus, Pencil, FileText, Calendar, Hash, User, AlignLeft, Code, CreditCa
 interface AccountCodeOption {
   code: string;
   name: string;
+  description?: string;
 }
 
 interface AccountFormProps {
@@ -37,6 +38,7 @@ export function AccountForm({ isOpen, onClose, account, onSuccess, accountCodeOp
     checkRcdNo: account?.checkRcdNo || '',
     payee: account?.payee || '',
     particulars: account?.particulars || '',
+    description: account?.description || '',
     code: account?.code || '',
     accounts: account?.accounts || '',
     debit: account?.debit || '',
@@ -52,6 +54,7 @@ export function AccountForm({ isOpen, onClose, account, onSuccess, accountCodeOp
         checkRcdNo: account.checkRcdNo || '',
         payee: account.payee || '',
         particulars: account.particulars || '',
+        description: account.description || '',
         code: account.code || '',
         accounts: account.accounts || '',
         debit: account.debit || '',
@@ -79,7 +82,8 @@ export function AccountForm({ isOpen, onClose, account, onSuccess, accountCodeOp
         setFormData(prev => ({
           ...prev,
           code: selected.code,
-          accounts: selected.name
+          accounts: selected.name,
+          description: selected.description || ''
         }));
       }
     }
@@ -344,6 +348,21 @@ export function AccountForm({ isOpen, onClose, account, onSuccess, accountCodeOp
                 className={inputClass}
                 placeholder={useCustomCode ? "Advances for Payroll" : "Auto-filled from code"}
                 required
+              />
+            </div>
+            
+            <div className="relative">
+              <label className={labelClass}>
+                <AlignLeft className="w-4 h-4" />
+                Description
+              </label>
+              <AlignLeft className={iconClass} />
+              <input
+                type="text"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                className={inputClass}
+                placeholder="e.g., LABOR, MEDICINE, FUEL/OIL"
               />
             </div>
           </div>
