@@ -7,12 +7,14 @@ import {
   Download,
   CheckCircle,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  User
 } from 'lucide-react';
 import { useState } from 'react';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/dashboard/profile', label: 'Profile', icon: User },
   { href: '/dashboard/validate', label: 'Validate Code', icon: CheckCircle },
   { href: '/dashboard/export', label: 'Export', icon: Download },
 ];

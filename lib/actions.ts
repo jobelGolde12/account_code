@@ -3,7 +3,7 @@
 import { db, schema } from './db';
 import { eq, like, or, isNull } from 'drizzle-orm';
 import { validateCodeSchema, cleanText } from './validation';
-import { Account } from '@/drizzle/schema';
+import { Account, User } from '@/drizzle/schema';
 
 export async function getAccounts(search?: string): Promise<Account[]> {
   if (search) {
@@ -144,4 +144,42 @@ export async function importAccounts(accounts: {
   }
 
   return { success: true, imported, skipped };
+}
+
+export async function getUser(id: number): Promise<User | null> {
+  const [user] = await db.select().from(schema.users)
+    .where(eq(schema.users.id, id))
+    .limit(1);
+  return user || null;
+}
+
+export async function getAllUsers(): Promise<User[]> {
+  return db.select().from(schema.users).where(isNull(schema.users.deletedAt));
+}
+
+export async function updateUser(id: number, data: { 
+  username?: string; 
+  password?: string; 
+}) {
+  const updateData: Record<string, string> = {
+    updatedAt: new Date().toISOString(),
+  };
+  
+  if (data.username) {
+    updateData.username = data.username;
+  }
+  if (data.password) {
+    updateData.password = data.password;
+  }
+
+  await db.update(schema.users)
+    .set(updateData)
+    .where(eq(schema.users.id, id));
+
+  return { success: true };
+}
+
+export async function getCurrentUser(): Promise<User | null> {
+  const users = await db.select().from(schema.users).where(isNull(schema.users.deletedAt)).limit(1);
+  return users[0] || null;
 }
